@@ -53,13 +53,14 @@ void Polynomial::Mul(Polynomial& A, Polynomial& B) //  ´ÙÇ×½Ä A¿Í ´ÙÇ×½Ä B¸¦ °öÇ
 {
 	// Mul ÇÔ¼ö¸¦ ¾²±âÀü¿¡ A, B¸¦ Á¤¸® ¹× Á¤·Ä ÇØÁà¾ß ÇÑ´Ù.
 
-	Polynomial temp; // ÀÓ½ÃÀûÀ¸·Î A¿Í BÀÇ °öÀ» ÀúÀå ÇÒ Å¬·¡½º ¼±¾ğ
+	Polynomial temp(B.terms); // ÀÓ½ÃÀûÀ¸·Î A¿Í BÀÇ °öÀ» ÀúÀå ÇÒ Å¬·¡½º ¼±¾ğ
+	temp.terms = B.terms; // tempÀÇ terms°ªÀ» B.terms °ªÀ¸·Î ¹Ù²Ş
 
 	for (int i = 0; i < A.terms; i++) { // ´ÙÇ×½Ä AÀÇ Ç× ÇÏ³ª¾¿ ´ÙÇ×½Ä BÀÇ ¸ğµç Ç×°ú °¢°¢ °öÇÑ´Ù.
-		temp.CopyObject(B); // temp¿¡ ´ÙÇ×½Ä Bº¹»ç
 		for (int j = 0; j < B.terms; j++) { // ´ÙÇ×½Ä BÀÇ ¸ğµç Ç×¿¡ Á¢±Ù
-			temp.termArray[j].exp += A.termArray[i].exp; // µÎ Ç×ÀÇ °ö¿¡¼­ Áö¼ö, °è¼ö¸¦ ±¸ÇÒ ¶© Áö¼ö´Â Áö¼ö³¢¸® ´õÇØÁÖ°í
-			temp.termArray[j].coef *= A.termArray[i].coef; // °è¼ö´Â °è¼ö³¢¸® °öÇØÁØ´Ù
+			// Áö¼ö´Â ¼­·Î ´õÇØÁÖ°í, °è¼ö´Â ¼­·Î °öÇØÁØ´Ù.
+			temp.termArray[j].exp = A.termArray[i].exp + B.termArray[j].exp; 
+			temp.termArray[j].coef = A.termArray[i].coef * B.termArray[j].coef; 
 		}
 		this->Add(*this, temp); // temp´Â ÀÌ¹Ì Á¤¸® ¹× Á¤·ÄÀÌ µÇ¾î ÀÖÀ¸¹Ç·Î ¹Ù·Î AddÇÔ¼ö¸¦ ½áÁØ´Ù.
 	}
@@ -67,12 +68,12 @@ void Polynomial::Mul(Polynomial& A, Polynomial& B) //  ´ÙÇ×½Ä A¿Í ´ÙÇ×½Ä B¸¦ °öÇ
 
 float Polynomial::Eval(float x) // (*this)ÀÇ ´ÙÇ×½Ä¿¡ x °ªÀ» ´ëÀÔÇÏ¸é ³ª¿À´Â °ªÀ» ¹İÈ¯ÇØ ÁÖ´Â ÇÔ¼ö
 {
-	float total = 0.0f, p = 1.0f; // total¿¡´ë°¡ °¢ Ç×¿¡ x°ªÀ» ´ëÀÔÇßÀ» ¶§ ³ª¿À´Â °ªµéÀ» ÀúÀåÇØ ÁØ´Ù.
-	for (int i = 0; i < terms; i++) {
-		p = 1.0f; // p¿¡ 1.0 ´ëÀÔ
+	float total = 0.0f, p = 1.0f; // °á°ú °ªµéÀ» ÀúÀåÇÏ´Â º¯¼ö, °ÅµìÁ¦°ö¿¡ ¾²ÀÏ º¯¼ö ¼±¾ğ
+	for (int i = 0; i < terms; i++) { 
+		p = 1.0f; // p¿¡ 1.0 ´ëÀÔ 
 		for (int j = 1; j <= termArray[i].exp; j++) // (XÀÇ i+1¹øÂ° Ç×ÀÇ Áö¼ö ½Â), ´Ù¸¥ ¸»·Î (x ^ termArray[i].exp)À» ±¸ÇÏ´Â ¹İº¹¹®
-			p *= x;
-		total += (termArray[i].coef) * p; // ÀÌÈÄ i+1¹øÂ° Ç×ÀÇ °è¼ö¿Í p¸¦ °öÇÑ °ªÀ» total¿¡ ÀúÀåÇØÁØ´Ù.
+			p *= x; 
+		total += (termArray[i].coef) * p; // total¿¡´ë°¡ °¢ Ç×¿¡ x°ªÀ» ´ëÀÔÇßÀ» ¶§ ³ª¿À´Â °ªµéÀ» ÀúÀåÇØ ÁØ´Ù.
 	}
 	return total; // total ¹İÈ¯
 }

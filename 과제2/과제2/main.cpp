@@ -7,10 +7,10 @@ int main(void)
 	Polynomial A; // 3개의 다항식 객체 선언
 	Polynomial B;
 	Polynomial C;
-	std::cout << "다항 식 A입력 : ";
+	std::cout << "다항식 A 입력 : ";
 	A.Input_Polynomial(); // 다항식 A입력
 
-	std::cout << "다항 식 B입력 : ";
+	std::cout << "다항식 B 입력 : ";
 	B.Input_Polynomial(); // 다항식 B입력
 
 	std::cout << "입력 한 식 A : ";
