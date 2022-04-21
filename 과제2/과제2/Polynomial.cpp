@@ -31,11 +31,11 @@ void Polynomial::Add(Polynomial& A, Polynomial& B) // 다항식 A와 다항식 B를 더하
 			aPos++, bPos++; // aPos, bPos값 1 증가
 		}
 		else if (A.termArray[aPos].exp < B.termArray[bPos].exp) { // 탐색해야하는 A, B항 중 B의 지수값이 A의 지수값보다 큰 경우 
-			C.NewTerm(B.termArray[bPos].coef, B.termArray[bPos].exp); // 탐색해야하는 B항 C에 추가
+			C.NewTerm(B.termArray[bPos].coef, B.termArray[bPos].exp); // 나머지 탐색 안한 B항의 데이터 C에 추가
 			bPos++; //bPos값 1 증가
 		}
 		else {                                                 // 탐색해야하는 A, B항 중 A의 지수값이 B의 지수값보다 큰 경우   
-			C.NewTerm(A.termArray[aPos].coef, A.termArray[aPos].exp); // 탐색해야하는 A항 C에 추가
+			C.NewTerm(A.termArray[aPos].coef, A.termArray[aPos].exp); // 나머지 탐색 안한 A항의 데이터 C에 추가
 			aPos++; //aPos값 1 증가
 		}
 	} // while문의 끝
@@ -86,9 +86,9 @@ bool Polynomial::NewTerm(const float theCoeff, const int theExp)
 		try
 		{
 			Term* temp = new Term[capacity]; // 기존 저장용량의 2배만큼 길이의 Term배열을 동적할당
-			std::copy(termArray, termArray + terms, temp); // 새로 만든 배열에 termArray값 복사
-			delete[] termArray; // 기존 termArray의 메모리 해제
-			termArray = temp; //  termArray에 새로 동적할당 된 temp 저장
+			std::copy(termArray, termArray + terms, temp); // 새로 만든 배열에 termArray 값 복사
+			delete[] termArray; // 기존 termArray에 동적할당 된 메모리 해제
+			termArray = temp; //  termArray가 새로 동적할당 된 Term배열 가리키게 함
 		}
 		catch (const std::bad_alloc& e) // 동적할당에 실패한 경우
 		{
@@ -180,13 +180,13 @@ void Polynomial::Classify_Polynomial() // 다항식을 정리 해주는 함수(정렬은 x)
 		P.capacity = P.terms = 1; // P의 capacity와 terms값은 1로 저장
 		P.termArray[0].coef = 0.0f; // 첫번째 항의 계수, 지수 값을 0으로 초기화
 		P.termArray[0].exp = 0;
-		this->CopyObject(P); // 이후 다항식 P의 데이터 값을 복사해서 (*this) 객체에 저장
 	}
 
-	else { // 나머지 경우
+	else // 나머지 경우
 		P.capacity = P.terms = k; // P의 capacity와 terms 값을 k로 바꾸어준다
-		this->CopyObject(P); // 다항식 P의 데이터 값을 복사해서 (*this) 객체에 저장
-	}
+
+	this->CopyObject(P); // 이후 다항식 P의 데이터 값을 복사해서 (*this) 객체에 저장
+
 }
 
 void Polynomial::Sort_Polynomial()
