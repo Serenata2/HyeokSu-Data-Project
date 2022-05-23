@@ -16,12 +16,16 @@ public:
 	// Card 객체를 만들 때 받아지는 인수값에 따라 카드를 만든다.
 	Card(int Suit = 0, int Rank = 0) :suit(Suit), rank(Rank), suit_code{ "♠", "◆", "♥", "♣" } { }
 	~Card() { } // 파괴자
-
 	inline int Card_Order() { return (13 * suit + rank); } // 카드의 우선순위를 알려주는 함수
 	
 	void Show_Card() // 카드를 출력하는 함수
 	{
 		std::cout << suit_code[suit] << rank + 1;
+	}
+	bool Card::operator > (Card& c) // 두 카드 객체의 우선순위를 비교해주는 연산자 오버로딩
+	{
+		bool i = (this->Card_Order() > c.Card_Order()) ? true : false;
+		return i;
 	}
 };
 

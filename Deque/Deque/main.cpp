@@ -10,11 +10,9 @@ int main(void)
 {
 	int rank, suit; // 카드의 랭크, 종류를 저장하는 변수
 	bool in_hand[4][13] = { false }; // 내가 가지고 있는 카드인지 알려주는 배열
-	Deck* My_Deck = new Deck; // My_Deck이라는 Deck객체를 동적할당
+	Deck* My_Deck = new Deck; // 포인터 변수 My_Deck에 Deck객체를 동적할당
 	
-	srand((unsigned)time(NULL));
-
-	std::cout << "우선순위 : Spade, Diamond, Heart, Club" << std::endl;
+	srand((unsigned)time(NULL)); // seed값을 랜덤하게 설정
 
 	int i = 1;
 	while (i <= NUM_CARDS) { // NUM_CARDS개의 원하는 카드를 뽑을 때까지 반복

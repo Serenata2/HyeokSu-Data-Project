@@ -16,12 +16,14 @@ public:
 	int Determind(Card& c);  
 	// 내 덱에 Card 객체 c를 넣는다면 어느 방향으로 얼만큼 shift 해야하는지에 대한 정보를 알려주는 함수
 	// 여기서 방향은 리턴 값의 부호에 따라 결정되고 shift은 리턴 값의 절댓값에 따라 결정된다
-	// 만약 리턴값이 card_num과 같으면 그 경우는 shift는 0으로 계산한다
+	// 만약 리턴값이 card_num과 같으면 그 경우 shift는 0으로 계산한다
 
 	void Push_Card(Card& c);
 	// Card 객체 c가 내 덱에 넣어지는 과정을 출력하는 함수
 
 	void Show_Deck();
 	// deck의 카드들의 정보를 출력하는 함수
+
+	
 };
 #endif
